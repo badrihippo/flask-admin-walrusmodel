@@ -23,8 +23,8 @@ first "real" extension so please bear with all the rough edges!
 
 ## Setup
 
-***Note:** this project is still work-in-progress, so don't expect it to
-work completely even after you set it up!*
+**Note:** this project is still work-in-progress, so don't expect it to
+work completely even after you set it up!
 
 The main module is inside the "walrusadmin" folder. Place this in your
 `PYTHON_PATH` to get it working. You can then set up your models for
@@ -53,10 +53,10 @@ of unittests yet).
 
 ## Contributing
 
-***Note:** Since I don't have Redis installed, I'm using
+**Note:** Since I don't have Redis installed, I'm using
 [rlite](https://github.com/seppo0010/rlite-py) to test
 the scripts. You will need to either have the `hirlite` python package
-installed, or edit testapp.py to use an actual Redis database.*
+installed, or edit testapp.py to use an actual Redis database.
 
 I'm still at the beginning stage of coding. Of course, any help would be
 appreciated :-)
