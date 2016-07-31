@@ -10,6 +10,12 @@ class ModelView(BaseModelView):
         columns = []
 
         for p in self.model._fields.keys():
+            field = getattr(self.model, p)
+
+            # Skip ContainerFields
+            if isinstance(field, walrus.models._ContainerField): continue
+
+            # Add field to list
             columns.append(p)
 
         return columns
@@ -31,8 +37,7 @@ class ModelView(BaseModelView):
         model_list = self.model.all()
         model_count = self.model.count()
         print model_count, model_list
-        # TODO: Fix error and return the actual model list here!
-        return model_count, []
+        return model_count, model_list
 
     def get_one(self, id):
         return self.model.load(id)
