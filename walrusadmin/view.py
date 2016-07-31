@@ -1,6 +1,7 @@
 from flask.ext.admin.model import BaseModelView
 import walrus
 import wtforms
+from .orm import model_form
 
 class ModelView(BaseModelView):
     def get_pk_value(self, model):
@@ -27,10 +28,8 @@ class ModelView(BaseModelView):
         return None
 
     def scaffold_form(self):
-        class MyForm(wtforms.Form):
-            pass
-            # TODO: Actually add fields to the form
-        return MyForm
+        form_class = model_form(self.model)
+        return form_class
 
     def get_list(self, page, sort_field, sort_desc, search, filters,
         page_size=None):
