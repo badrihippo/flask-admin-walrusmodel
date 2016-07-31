@@ -35,7 +35,6 @@ class ModelView(BaseModelView):
         page_size=None):
         model_list = self.model.all()
         model_count = self.model.count()
-        print model_count, model_list
         return model_count, model_list
 
     def get_one(self, id):
