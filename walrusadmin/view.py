@@ -1,4 +1,6 @@
 from flask.ext.admin.model import BaseModelView
+from flask.ext.admin.babel import gettext, ngettext, lazy_gettext
+from flask import flash
 import walrus
 import wtforms
 from .orm import model_form
@@ -40,3 +42,14 @@ class ModelView(BaseModelView):
     def get_one(self, id):
         return self.model.load(id)
 
+    def create_model(self, form):
+        try:
+            model = self.model()
+            form.populate_obj(model)
+            model.save()
+        except Exception as e:
+            if not self.handle_view_exception(e):
+                flash(gettext('Failed to create record. %(error)s', error=str(e)), 'error')
+            return False
+
+        return model
