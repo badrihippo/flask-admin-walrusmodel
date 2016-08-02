@@ -64,3 +64,12 @@ class ModelView(BaseModelView):
             return False
 
         return True
+
+    def delete_model(self, model):
+        try:
+            model.delete()
+        except Exception as e:
+            flash(gettext('Failed to update record. %(error)s', error=str(e)), 'error')
+            return False
+
+        return True
