@@ -53,3 +53,14 @@ class ModelView(BaseModelView):
             return False
 
         return model
+
+    def update_model(self, form, model):
+        try:
+            form.populate_obj(model)
+            model.save()
+        except Exception as e:
+            if not self.handle_view_exception(e):
+                flash(gettext('Failed to update record. %(error)s', error=str(e)), 'error')
+            return False
+
+        return True
