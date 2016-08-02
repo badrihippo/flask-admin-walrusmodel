@@ -2,7 +2,8 @@
 
 [Walrus](https://github.com/coleifer/walrus) model backend for the
 [Flask-Admin](https://github.com/flask-admin/flask-admin/)
-**(Note: Work in progress!)**
+
+**Note: Work in progress!** See the "Implementation status" section below for details
 
   * **[Walrus](https://github.com/coleifer/walrus)** is a set of Python
     wrappers for working with Redis and other Redis-like KVS databases
@@ -22,9 +23,6 @@ project, but hopefully it will be useful elsewhere, too.  This is my
 first "real" extension so please bear with all the rough edges!
 
 ## Setup
-
-**Note:** this project is still work-in-progress, so don't expect it to
-work completely even after you set it up!
 
 The main module is inside the "walrusadmin" folder. Place this in your
 `PYTHON_PATH` to get it working. You can then set up your models for
@@ -51,6 +49,15 @@ For a full example, see the `testapp.py` file—which is also what I'm
 using to check that the admin interface works (no, I haven't got the hang
 of unittests yet).
 
+## Implementation status
+
+* [ ] Basic CRUD support
+   * [x] for simple field types: TextField, IntegerField, etc.
+   * [ ] for aggregate fields types: SetField, HashField, ZSetField
+         (current behaviour is to ignore these field types)
+* [ ] Implement filters/search functionality
+* [ ] Bundle into Python package
+
 ## Contributing
 
 **Note:** Since I don't have Redis installed, I'm using
@@ -58,10 +65,10 @@ of unittests yet).
 the scripts. You will need to either have the `hirlite` python package
 installed, or edit testapp.py to use an actual Redis database.
 
-I'm still at the beginning stage of coding. Of course, any help would be
-appreciated :-)
+I'm still at the beginning stage of coding. Feel free to join in with any
+of the unimplemented points listed in the "Implementation status" section
+above. Any help would be appreciated :-)
 
 And I'm still new to development, so don't worry about messing with my
 coding style: I don't have one yet!
-    
 
