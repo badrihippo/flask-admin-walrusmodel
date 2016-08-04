@@ -29,7 +29,13 @@ class ModelView(BaseModelView):
         return columns
 
     def scaffold_sortable_columns(self):
-        return None
+        columns = dict()
+        for n, f in self._get_model_fields():
+            # Skip ContainerFields
+            if isinstance(f, walrus.models._ContainerField): continue
+            columns[n] = f
+
+        return columns
 
     def init_search(self):
         return None
@@ -40,9 +46,23 @@ class ModelView(BaseModelView):
 
     def get_list(self, page, sort_field, sort_desc, search, filters,
         page_size=None):
-        model_list = self.model.all()
-        model_count = self.model.count()
-        return model_count, model_list
+
+        # Default query parameters
+        expression = None
+        order_by = None
+
+        # Sort
+        if sort_field is not None:
+            sort_field = self._sortable_columns[sort_field]
+            if sort_desc:
+                order_by=sort_field.desc()
+            else:
+                order_by=sort_field
+
+        query = self.model.query(expression=expression, order_by=order_by)
+        count = self.model.count()
+
+        return count, query
 
     def get_one(self, id):
         return self.model.load(id)
