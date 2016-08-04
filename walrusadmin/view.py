@@ -1,20 +1,25 @@
 from flask.ext.admin.model import BaseModelView
 from flask.ext.admin.babel import gettext, ngettext, lazy_gettext
+from flask.ext.admin._compat import iteritems
 from flask import flash
 import walrus
 import wtforms
 from .orm import model_form
 
 class ModelView(BaseModelView):
+
+    def _get_model_fields(self, model=None):
+        if model is None:
+            model = self.model
+
+        return iteritems(model._fields)
     def get_pk_value(self, model):
         return model.get_id()
 
     def scaffold_list_columns(self):
         columns = []
 
-        for p in self.model._fields.keys():
-            field = getattr(self.model, p)
-
+        for p, field in self._get_model_fields():
             # Skip ContainerFields
             if isinstance(field, walrus.models._ContainerField): continue
 
