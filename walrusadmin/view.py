@@ -1,6 +1,6 @@
 from flask.ext.admin.model import BaseModelView
 from flask.ext.admin.babel import gettext, ngettext, lazy_gettext
-from flask.ext.admin._compat import iteritems
+from flask.ext.admin._compat import string_types, iteritems
 from flask import flash
 import walrus
 import wtforms
