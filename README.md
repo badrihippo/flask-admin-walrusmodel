@@ -57,7 +57,7 @@ of unittests yet).
          (current behaviour is to ignore these field types)
 * [x] Sorting
 * [ ] Search
-   * [ ] simple
+   * [x] simple
    * [ ] full-text
 * [ ] Filters
 * [ ] Tests

@@ -8,6 +8,16 @@ from .orm import model_form
 
 class ModelView(BaseModelView):
 
+    def __init__(self, model, name=None,
+                 category=None, endpoint=None, url=None, static_folder=None,
+                 menu_class_name=None, menu_icon_type=None, menu_icon_value=None):
+        self._search_fields = []
+
+        super(ModelView, self).__init__(model, name, category, endpoint, url, static_folder,
+                                        menu_class_name=menu_class_name,
+                                        menu_icon_type=menu_icon_type,
+                                        menu_icon_value=menu_icon_value)
+
     def _get_model_fields(self, model=None):
         if model is None:
             model = self.model
@@ -38,7 +48,43 @@ class ModelView(BaseModelView):
         return columns
 
     def init_search(self):
-        return None
+        if self.column_searchable_list:
+            for p in self.column_searchable_list:
+                if isinstance(p, string_types):
+                    p = getattr(self.model, p)
+
+                field_type = type(p)
+
+                # Check type
+                if (field_type != walrus.TextField):
+                    raise Exception('Can only search on text columns. ' +
+                                    'Failed to setup search for "%s"' % p)
+
+                # Check that field is indexed
+                if p._index == False:
+                    raise Exception('Field must be indexed before searching. ' +
+                                    'Please set "index=True" to enable indexing. ' +
+                                    'Failed to setup search for "%s"' % p)
+
+                self._search_fields.append(p)
+
+        return bool(self._search_fields)
+
+        if self.column_searchable_list:
+            for p in self.column_searchable_list:
+                if isinstance(p, string_types):
+                    p = getattr(self.model, p)
+
+                field_type = type(p)
+
+                # Check type
+                if (field_type != CharField and field_type != TextField):
+                        raise Exception('Can only search on text columns. ' +
+                                        'Failed to setup search for "%s"' % p)
+
+                self._search_fields.append(p)
+
+        return bool(self._search_fields)
 
     def scaffold_form(self):
         form_class = model_form(self.model)
@@ -50,6 +96,21 @@ class ModelView(BaseModelView):
         # Default query parameters
         expression = None
         order_by = None
+
+        # Search
+        if self._search_supported and search:
+            # Create a walrus.query.Expression using the first field
+            # in the search_fields list
+            expression = (self._search_fields[0] == search)
+
+            # Iterate over the remaining search_fields and add
+            # them onto the expression (joining them with OR).
+            search_fields = self._search_fields[1:]
+            for field in search_fields:
+                expression = (expression | (field == search))
+
+            # Now we have an expression which says, in effect, "if
+            # *at least one* of the fields matches `search`...".
 
         # Sort
         if sort_field is not None:

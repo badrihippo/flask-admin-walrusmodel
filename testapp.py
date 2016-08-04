@@ -18,13 +18,13 @@ class User(walrus.Model):
     username = walrus.TextField(primary_key=True)
     password = walrus.TextField()
     is_active = walrus.BooleanField(default=True)
-    first_name = walrus.TextField()
-    last_name = walrus.TextField()
+    first_name = walrus.TextField(index=True)
+    last_name = walrus.TextField(index=True)
     email = walrus.TextField()
     addresses = walrus.HashField()
 
 class UserAdmin(ModelView):
-    pass
+    column_searchable_list = ['username', 'first_name', 'last_name']
 
 admin.add_view(UserAdmin(User))
 
