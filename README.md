@@ -55,8 +55,14 @@ of unittests yet).
    * [x] for simple field types: TextField, IntegerField, etc.
    * [ ] for aggregate fields types: SetField, HashField, ZSetField
          (current behaviour is to ignore these field types)
-* [ ] Implement filters/search functionality
-* [ ] Bundle into Python package
+* [ ] Sorting
+* [ ] Search
+   * [ ] simple
+   * [ ] full-text
+* [ ] Filters
+* [ ] Tests
+* [ ] Documentation!
+* [ ] Bundle into Python package?
 
 ## Contributing
 
